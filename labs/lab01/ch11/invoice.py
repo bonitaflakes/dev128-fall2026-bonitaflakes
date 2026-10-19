@@ -1,16 +1,28 @@
 # Starting file for Lab 1 Chapter 11 invoice.py program
 # Include your name, date, and class in the assignment comments (replace this line)
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 def get_invoice_date():
-    invoice_date_str = input("Enter the invoice date (MM/DD/YY): ")    
-    invoice_date = datetime.strptime(invoice_date_str, "%m/%d/%y")
-    return invoice_date
+    while True:
+        invoice_date_str = input("Enter the invoice date (MM/DD/YYYY): ")
+        try:
+            dt = datetime.strptime(invoice_date_str, "%m/%d/%Y")
+        except ValueError:
+            print("Invalid date. Please try again and enter date in the format  MM/DD/YYYY.")
+            continue
+
+        invoice_date = date(dt.year, dt.month, dt.day)
+        if invoice_date > date.today():
+            print("Invoice date must either be today or a day in the past. Please try again.")
+        else:    
+            return invoice_date
+                   
 
 def main():
     print("The Invoice Due Date program")
     print()
+
 
     again = "y"
     while again.lower() == "y":
@@ -19,7 +31,7 @@ def main():
 
         # calculate due date and days overdue
         due_date = invoice_date + timedelta(days=30)
-        current_date = datetime.now()
+        current_date = date.today()
         days_overdue = (current_date - due_date).days
 
         # display results
