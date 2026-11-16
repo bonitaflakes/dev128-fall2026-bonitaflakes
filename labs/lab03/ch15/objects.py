@@ -46,3 +46,11 @@ class Album(Media):
     
     def getDescription(self):
         return f"{Product.getDescription(self)} by {self.artist}"
+
+@dataclass
+class Movie:
+    name: str = ""
+    year: int = 1900
+
+    def getStr(self):
+        return f"{self.name} ({self.year})"    
